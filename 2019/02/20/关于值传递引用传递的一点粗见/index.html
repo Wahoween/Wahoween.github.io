@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="米缸拾荒">
 <meta property="og:description" content="值传递和引用传递粗见一孔之见，如有错误，请加以斧正先来看一段代码123456789101112131415161718192021class Transfer &amp;#123;        int c;    &amp;#125;    public static void main(String[] args)&amp;#123;        int a1=1,b1=2;        System.out.p">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-02-20T13:48:58.247Z">
+<meta property="og:updated_time" content="2019-02-20T13:55:01.564Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="关于值传递引用传递的一点粗见">
 <meta name="twitter:description" content="值传递和引用传递粗见一孔之见，如有错误，请加以斧正先来看一段代码123456789101112131415161718192021class Transfer &amp;#123;        int c;    &amp;#125;    public static void main(String[] args)&amp;#123;        int a1=1,b1=2;        System.out.p">
@@ -348,29 +348,17 @@
         <h1 id="值传递和引用传递粗见"><a href="#值传递和引用传递粗见" class="headerlink" title="值传递和引用传递粗见"></a>值传递和引用传递粗见</h1><p><em>一孔之见，如有错误，请加以斧正</em><br>先来看一段代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">class Transfer &#123;</span><br><span class="line">        int c;</span><br><span class="line">    &#125;</span><br><span class="line">    public static void main(String[] args)&#123;</span><br><span class="line">        int a1=1,b1=2;</span><br><span class="line">        System.out.println(&quot;a=&quot;+a1+&quot;\tb=&quot;+b1);</span><br><span class="line">        a1=b1;</span><br><span class="line">        System.out.println(&quot;a=&quot;+a1+&quot;\tb=&quot;+b1);</span><br><span class="line">        a1=3;</span><br><span class="line">        System.out.println(&quot;a=&quot;+a1+&quot;\tb=&quot;+b1);</span><br><span class="line"></span><br><span class="line">        Transfer a=new Transfer();</span><br><span class="line">        Transfer b=new Transfer();</span><br><span class="line">        a.c=1;</span><br><span class="line">        b.c=2;</span><br><span class="line">        System.out.println(&quot;a=&quot;+a.c+&quot;\tb=&quot;+b.c);</span><br><span class="line">        a=b;</span><br><span class="line">        System.out.println(&quot;a=&quot;+a.c+&quot;\tb=&quot;+b.c);</span><br><span class="line">        a.c=3;</span><br><span class="line">        System.out.println(&quot;a=&quot;+a.c+&quot;\tb=&quot;+b.c);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
 <p>下面揭底运行结果:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">a=1 	b=2</span><br><span class="line">a=2 	b=2</span><br><span class="line">a=3 	b=2</span><br><span class="line">a=1 	b=2</span><br><span class="line">a=2 	b=2</span><br><span class="line">a=3 	b=3</span><br></pre></td></tr></table></figure></p>
 <p>结果很奇怪，为什么第六个结果不是a=3    b=2.因为第一个是值传递，第二个是引用传递。<br>那什么是值传递？什么是引用传递呢？</p>
-<p>1、值传递</p>
-<pre><code>在方法的调用过程中，实参把它的实际值传递给形参，此传递过程就是将实参的值复制一份传递到函数中，这样如果在函数中对该值（形参的值）进行了操作将不会影响实参的值。因为是直接复制，所以这种方式在传递大量数据时，运行效率会特别低下。
-</code></pre><p>2、引用传递</p>
-<pre><code>引用传递弥补了值传递的不足，如果传递的数据量很大，直接复过去的话，会占用大量的内存空间，而引用传递就是将对象的地址值传递过去，函数接收的是原始值的首地址值。在方法的执行过程中，形参和实参的内容相同，指向同一块内存地址，也就是说操作的其实都是源数据，所以方法的执行将会影响到实际对象。
-</code></pre><p>为什么上面是值传递？<br><strong>先插一句话，在Java中，数据的存储有五种方式</strong></p>
+<p>1、值传递<br>    在方法的调用过程中，实参把它的实际值传递给形参，此传递过程就是将实参的值复制一份传递到函数中，这样如果在函数中对该值（形参的值）进行了操作将不会影响实参的值。<br>因为是直接复制，所以这种方式在传递大量数据时，运行效率会特别低下。</p>
+<p>2、引用传递<br>    引用传递弥补了值传递的不足，如果传递的数据量很大，直接复过去的话，会占用大量的内存空间，而引用传递就是将对象的地址值传递过去，函数接收的是原始值的首地址值。<br>在方法的执行过程中，形参和实参的内容相同，指向同一块内存地址，也就是说操作的其实都是源数据，所以方法的执行将会影响到实际对象。</p>
+<p>为什么上面是值传递？<br><strong>先插一句话，在Java中，数据的存储有五种方式</strong></p>
 <ol>
-<li><p>寄存器</p>
-<p> 最快的存储区，里面有啥我暂时也不知道，可自行百度</p>
-</li>
-<li><p>堆栈</p>
-<p> 堆栈指针向下则分配新的内存，指针向上，则释放那些内存，有一部分特殊对象，存于堆栈中<strong>boolean,char,byte,short,int,long,float,double,void</strong>这些对象在里面只存值，不存对象</p>
-</li>
-<li><p>堆</p>
-<p> 用于存放所有你的Java对象</p>
-</li>
-<li><p>常量存储</p>
-<p> 常量值它通常只存于程序内部</p>
-</li>
-<li><p>非RAM存储</p>
-<p> 通常存储流对象和持久化对象</p>
-</li>
+<li>寄存器<br>最快的存储区，里面有啥我暂时也不知道，可自行百度  </li>
+<li>堆栈<br>堆栈指针向下则分配新的内存，指针向上，则释放那些内存，有一部分特殊对象，存于堆栈中<strong>boolean,char,byte,short,int,long,float,double,void</strong>这些对象在里面只存值，不存对象  </li>
+<li>堆<br> 用于存放所有你的Java对象  </li>
+<li>常量存储<br> 常量值它通常只存于程序内部  </li>
+<li>非RAM存储<br> 通常存储流对象和持久化对象</li>
 </ol>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><strong>因为int对象值存值不存对象本省，而其他的对象在new的过程中，只是对这个对象的引用（包括String）。</strong>所以上面的是值传递，下面的是引用传递。<br>所上面的更改，只是更改了他的值，下面的更改，更改了引用对象。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><strong>因为int对象值存值不存对象本生，而其他的对象在new的过程中，只是对这个对象的引用（包括String）。</strong>所以上面的是值传递，下面的是引用传递。<br>所上面的更改，只是更改了他的值，下面的更改，更改了引用对象。</p>
 
       
     </div>
